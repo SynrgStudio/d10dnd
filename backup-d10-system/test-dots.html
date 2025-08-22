@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba Sistema D10 - Dots</title>
+    <link rel="stylesheet" href="d10-styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .stat-row {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        .stat-label {
+            font-weight: bold;
+            width: 100px;
+            margin-right: 15px;
+        }
+        .stat-score {
+            margin-right: 15px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prueba del Sistema D10 - Visualización de Dots</h1>
+    
+    <div class="test-container">
+        <h2>Ejemplos de Puntuaciones de Habilidad con Dots</h2>
+        <p>Esta página muestra cómo se ven las diferentes puntuaciones convertidas a dots:</p>
+        
+        <!-- Ejemplo 1: Goblin (stats bajos) -->
+        <div class="stat-row">
+            <span class="stat-label">STR 8:</span>
+            <span class="stat-score">0 dots</span>
+            <span class="ability-dots">
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+            </span>
+        </div>
+        
+        <div class="stat-row">
+            <span class="stat-label">DEX 14:</span>
+            <span class="stat-score">3 dots</span>
+            <span class="ability-dots stats__disp-as-score--physical">
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+            </span>
+        </div>
+        
+        <div class="stat-row">
+            <span class="stat-label">CON 10:</span>
+            <span class="stat-score">1 dot</span>
+            <span class="ability-dots stats__disp-as-score--physical">
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+            </span>
+        </div>
+        
+        <div class="stat-row">
+            <span class="stat-label">INT 10:</span>
+            <span class="stat-score">1 dot</span>
+            <span class="ability-dots stats__disp-as-score--mental">
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+            </span>
+        </div>
+        
+        <div class="stat-row">
+            <span class="stat-label">WIS 8:</span>
+            <span class="stat-score">0 dots</span>
+            <span class="ability-dots stats__disp-as-score--mental">
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+            </span>
+        </div>
+        
+        <div class="stat-row">
+            <span class="stat-label">CHA 8:</span>
+            <span class="stat-score">0 dots</span>
+            <span class="ability-dots stats__disp-as-score--mental">
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+            </span>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Ejemplo Dragón (Stats muy altos)</h2>
+        
+        <div class="stat-row">
+            <span class="stat-label">STR 27:</span>
+            <span class="stat-score">9 dots</span>
+            <span class="ability-dots stats__disp-as-score--physical">
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot-extra"> +4</span>
+            </span>
+        </div>
+        
+        <div class="stat-row">
+            <span class="stat-label">INT 18:</span>
+            <span class="stat-score">5 dots</span>
+            <span class="ability-dots stats__disp-as-score--mental">
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+            </span>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Toggle de Configuración</h2>
+        <div class="d10-toggle-container">
+            <label class="d10-toggle-label">
+                <input type="checkbox" id="d10-mode-toggle" checked>
+                Modo D10 (Sistema de Dots)
+            </label>
+            <label class="d10-dots-label">
+                <input type="checkbox" id="d10-dots-toggle" checked>
+                Mostrar como Dots
+            </label>
+        </div>
+    </div>
+    
+    <script type="module">
+        import { convertScoreToDots, generateDotsHtml } from './d10-converter.js';
+        
+        // Test de la función de conversión
+        console.log('Pruebas de conversión:');
+        console.log('STR 8 -> dots:', convertScoreToDots(8));
+        console.log('DEX 14 -> dots:', convertScoreToDots(14));
+        console.log('STR 27 -> dots:', convertScoreToDots(27));
+        
+        // Test de la función de generación HTML
+        console.log('HTML para 3 dots:', generateDotsHtml(3));
+        console.log('HTML para 9 dots:', generateDotsHtml(9));
+    </script>
+</body>
+</html> 

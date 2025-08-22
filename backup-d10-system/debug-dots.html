@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Dots D10</title>
+    <link rel="stylesheet" href="d10-styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+        .debug-container {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        .debug-row {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🐛 Debug Dots D10</h1>
+    
+    <div class="debug-container">
+        <h2>Test 1: CSS básico</h2>
+        <div class="debug-row">
+            <p>Esto debería mostrar 3 dots rojos y 2 vacíos:</p>
+            <div class="stats__disp-as-score--physical">
+                <span class="ability-dots">
+                    <span class="ability-dot ability-dot--filled">●</span>
+                    <span class="ability-dot ability-dot--filled">●</span>
+                    <span class="ability-dot ability-dot--filled">●</span>
+                    <span class="ability-dot ability-dot--empty">○</span>
+                    <span class="ability-dot ability-dot--empty">○</span>
+                </span>
+            </div>
+        </div>
+        
+        <div class="debug-row">
+            <p>Esto debería mostrar 5 dots azules + 2 extra:</p>
+            <div class="stats__disp-as-score--mental">
+                <span class="ability-dots">
+                    <span class="ability-dot ability-dot--filled">●</span>
+                    <span class="ability-dot ability-dot--filled">●</span>
+                    <span class="ability-dot ability-dot--filled">●</span>
+                    <span class="ability-dot ability-dot--filled">●</span>
+                    <span class="ability-dot ability-dot--filled">●</span>
+                    <span class="ability-dot-extra"> +2</span>
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="debug-container">
+        <h2>Test 2: Función JavaScript</h2>
+        <div class="debug-row">
+            <p>Resultado de renderD10Dots(3):</p>
+            <div id="js-test-3"></div>
+        </div>
+        <div class="debug-row">
+            <p>Resultado de renderD10Dots(7):</p>
+            <div id="js-test-7"></div>
+        </div>
+    </div>
+    
+    <div class="debug-container">
+        <h2>Test 3: Tabla simulada (como en bestiary)</h2>
+        <table class="w-100 stats monster">
+            <tr>
+                <th class="ve-col-2 ve-text-center bold">
+                    STR<br>
+                    <span class="small">15 <span id="str-dots"></span></span>
+                </th>
+                <th class="ve-col-2 ve-text-center bold">
+                    DEX<br>
+                    <span class="small">18 <span id="dex-dots"></span></span>
+                </th>
+                <th class="ve-col-2 ve-text-center bold">
+                    CON<br>
+                    <span class="small">12 <span id="con-dots"></span></span>
+                </th>
+            </tr>
+        </table>
+    </div>
+    
+    <script>
+        // Función de renderizado D10 (copiada del código)
+        function renderD10Dots(dotCount) {
+            if (typeof dotCount !== 'number' || dotCount < 0) return "";
+            
+            const dots = [];
+            const maxDots = 5;
+            
+            for (let i = 0; i < maxDots; i++) {
+                if (i < dotCount) {
+                    dots.push('<span class="ability-dot ability-dot--filled">●</span>');
+                } else {
+                    dots.push('<span class="ability-dot ability-dot--empty">○</span>');
+                }
+            }
+            
+            // Si hay más de 5 dots, mostrar el número adicional
+            if (dotCount > maxDots) {
+                dots.push(`<span class="ability-dot-extra"> +${dotCount - maxDots}</span>`);
+            }
+            
+            return `<span class="ability-dots">${dots.join('')}</span>`;
+        }
+        
+        // Función de conversión
+        function convertScoreToDots(score) {
+            if (score <= 9) return 0;
+            if (score <= 11) return 1;
+            if (score <= 13) return 2;
+            if (score <= 15) return 3;
+            if (score <= 17) return 4;
+            return 5 + Math.floor((score - 18) / 2);
+        }
+        
+        // Ejecutar tests
+        document.getElementById('js-test-3').innerHTML = renderD10Dots(3);
+        document.getElementById('js-test-7').innerHTML = renderD10Dots(7);
+        
+        // Test de tabla
+        document.getElementById('str-dots').innerHTML = renderD10Dots(convertScoreToDots(15)); // 3 dots
+        document.getElementById('dex-dots').innerHTML = renderD10Dots(convertScoreToDots(18)); // 5 dots  
+        document.getElementById('con-dots').innerHTML = renderD10Dots(convertScoreToDots(12)); // 2 dots
+        
+        // Log para debug
+        console.log('STR 15 -> dots:', convertScoreToDots(15));
+        console.log('DEX 18 -> dots:', convertScoreToDots(18));
+        console.log('CON 12 -> dots:', convertScoreToDots(12));
+    </script>
+</body>
+</html> 

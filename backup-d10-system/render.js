@@ -3349,7 +3349,18 @@ Renderer.utils = class {
 
 	static getAbilityRollerEntry (statblock, ability, {isDisplayAsBonus} = {}) {
 		if (statblock[ability] == null) return "\u2014";
-		return `{@ability ${ability} ${statblock[ability]}${isDisplayAsBonus ? `|${Parser.getAbilityModifier(statblock[ability])}` : ""}}`;
+		
+		// Obtener el número de dots si está disponible
+		const dots = statblock[`${ability}_dots`] !== undefined ? statblock[`${ability}_dots`] : 0;
+		
+		// Crear el contexto con la información de los dots
+		const context = {
+			type: "abilityCheck",
+			ability: ability,
+			dots: dots
+		};
+		
+		return `{@ability ${ability} ${statblock[ability]}${isDisplayAsBonus ? `|${Parser.getAbilityModifier(statblock[ability])}` : ""}|${JSON.stringify(context)}}`;
 	}
 
 	static getAbilityRoller (statblock, ability, {isDisplayAsBonus = false} = {}) {
@@ -9996,9 +10007,18 @@ Renderer.monster = class {
 		return "";
 	}
 
-	static getSave (renderer, attr, mod) {
+	static getSave (renderer, attr, mod, context = null) {
 		if (attr === "special") return renderer.render(mod);
-		return renderer.render(`<span>${attr.uppercaseFirst()} {@savingThrow ${attr} ${mod}}</span>`);
+		
+		// Si no se proporciona un contexto, crear uno básico
+		if (!context) {
+			context = {
+				type: "savingThrow",
+				ability: attr
+			};
+		}
+		
+		return renderer.render(`<span>${attr.uppercaseFirst()} {@savingThrow ${attr} ${mod}|${JSON.stringify(context)}}</span>`);
 	}
 
 	static dragonCasterVariant = class {
@@ -10421,7 +10441,21 @@ Renderer.monster = class {
 		return 10 + initBonus + advDisMod;
 	}
 
-	static getSavesPart (mon) { return `${Object.keys(mon.save || {}).sort(SortUtil.ascSortAtts).map(s => Renderer.monster.getSave(Renderer.get(), s, mon.save[s])).join(", ")}`; }
+	static getSavesPart (mon) { 
+		return `${Object.keys(mon.save || {}).sort(SortUtil.ascSortAtts).map(s => {
+			// Obtener el número de dots si está disponible
+			const dots = mon[`${s}_dots`] !== undefined ? mon[`${s}_dots`] : 0;
+			
+			// Crear el contexto con la información de los dots
+			const context = {
+				type: "savingThrow",
+				ability: s,
+				dots: dots
+			};
+			
+			return Renderer.monster.getSave(Renderer.get(), s, mon.save[s], context);
+		}).join(", ")}`;
+	}
 
 	static getSensesPart (mon, {isTitleCase = false, isForcePassive = false} = {}) {
 		const passive = mon.passive ?? (typeof mon.wis === "number" ? (10 + Parser.getAbilityModNumber(mon.wis)) : null);
@@ -10730,7 +10764,7 @@ Renderer.monster = class {
 
 		if (Parser.ABIL_ABVS.every(abv => this._getRenderedAbilityScores_isSpecial({mon, abv}))) return ptSpecial;
 
-		// Función para convertir puntuación a dots
+		// Aplicar conversión D10 si no se ha hecho ya
 		const convertScoreToDots = (score) => {
 			if (score <= 9) return 0;
 			if (score <= 11) return 1;

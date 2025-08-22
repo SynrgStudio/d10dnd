@@ -1,0 +1,143 @@
+/* Estilos para el Sistema D10 - Visualización de Dots */
+
+/* Contenedor principal de dots */
+.ability-dots {
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+	font-family: monospace;
+	white-space: nowrap;
+}
+
+/* Dots individuales */
+.ability-dot {
+	display: inline-block;
+	font-size: 16px;
+	line-height: 1;
+	transition: color 0.2s ease;
+}
+
+/* Dot relleno (activo) */
+.ability-dot--filled {
+	color: #2e7d32; /* Verde oscuro */
+	text-shadow: 0 0 2px rgba(46, 125, 50, 0.3);
+}
+
+/* Dot vacío (inactivo) */
+.ability-dot--empty {
+	color: #ccc;
+	opacity: 0.6;
+}
+
+/* Número adicional para dots > 5 */
+.ability-dot-extra {
+	margin-left: 4px;
+	font-size: 12px;
+	color: #666;
+	font-weight: bold;
+}
+
+/* Contenedor de toggle para el modo D10 */
+.d10-toggle-container {
+	margin: 10px 0;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	background-color: #f9f9f9;
+}
+
+.d10-toggle-label, .d10-dots-label {
+	display: block;
+	margin: 5px 0;
+	cursor: pointer;
+	user-select: none;
+}
+
+.d10-toggle-label input, .d10-dots-label input {
+	margin-right: 8px;
+}
+
+/* Estilos específicos para las tablas de stats */
+.stats tbody .ability-dots {
+	justify-content: center;
+}
+
+/* Variaciones de color para dots según el tipo de habilidad */
+.stats__disp-as-score--physical .ability-dot--filled {
+	color: #d32f2f; /* Rojo para habilidades físicas */
+	text-shadow: 0 0 2px rgba(211, 47, 47, 0.3);
+}
+
+.stats__disp-as-score--mental .ability-dot--filled {
+	color: #1976d2; /* Azul para habilidades mentales */
+	text-shadow: 0 0 2px rgba(25, 118, 210, 0.3);
+}
+
+/* Versión compacta para espacios pequeños */
+.ability-dots--compact {
+	gap: 1px;
+}
+
+.ability-dots--compact .ability-dot {
+	font-size: 12px;
+}
+
+.ability-dots--compact .ability-dot-extra {
+	font-size: 10px;
+	margin-left: 2px;
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+	.ability-dot--empty {
+		color: #666;
+	}
+	
+	.ability-dot-extra {
+		color: #aaa;
+	}
+	
+	.d10-toggle-container {
+		background-color: #2a2a2a;
+		border-color: #555;
+	}
+}
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 768px) {
+	.ability-dots {
+		gap: 1px;
+	}
+	
+	.ability-dot {
+		font-size: 14px;
+	}
+	
+	.ability-dot-extra {
+		font-size: 10px;
+	}
+}
+
+/* Animaciones sutiles */
+@keyframes dotAppear {
+	from {
+		opacity: 0;
+		transform: scale(0.5);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+.ability-dot--filled {
+	animation: dotAppear 0.3s ease-out;
+}
+
+/* Hover effects para los toggles */
+.d10-toggle-label:hover, .d10-dots-label:hover {
+	background-color: rgba(0, 0, 0, 0.05);
+	border-radius: 3px;
+	padding: 2px 4px;
+	margin: 3px -4px;
+} 

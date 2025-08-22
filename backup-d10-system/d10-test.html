@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Sistema d10</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .d10-dots { color: #ff6b35; font-weight: bold; margin-left: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Test Sistema d10 - Funciones de Conversión</h1>
+
+    <div class="test-section">
+        <h2>Conversión de Puntuaciones a Dots</h2>
+        <div id="score-tests"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Simulación de Tiradas</h2>
+        <div id="roll-tests"></div>
+    </div>
+
+    <script src="js/d10-system.js"></script>
+    <script>
+        // Esperar a que se cargue el script
+        setTimeout(() => {
+            testD10System();
+        }, 100);
+
+        function testD10System() {
+            if (typeof scoreToDots !== "function") {
+                document.getElementById("score-tests").innerHTML = "<p style='color: red;'>Error: Funciones d10 no cargadas</p>";
+                return;
+            }
+
+            // Test de conversión de puntuaciones
+            const scores = [3, 8, 12, 15, 18, 20];
+            let scoreHtml = "<table border='1'><tr><th>Puntuación D&D</th><th>Dots</th><th>Visual</th></tr>";
+
+            scores.forEach(score => {
+                const dots = scoreToDots(score);
+                const visual = getDotsDisplay(dots, "STR");
+                scoreHtml += `<tr><td>${score}</td><td>${dots}</td><td>15${visual}</td></tr>`;
+            });
+            scoreHtml += "</table>";
+            document.getElementById("score-tests").innerHTML = scoreHtml;
+
+            // Test de tiradas
+            let rollHtml = "<p>Tiradas de ejemplo (3d10):</p>";
+            for (let i = 0; i < 3; i++) {
+                const result = rollDicePool(3);
+                rollHtml += `<p>Tirada ${i+1}: ${result.rolls.join(", ")} = ${result.successes} éxitos</p>`;
+            }
+            document.getElementById("roll-tests").innerHTML = rollHtml;
+        }
+    </script>
+</body>
+</html>

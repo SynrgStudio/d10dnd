@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Test d10 Functions</title>
+</head>
+<body>
+    <h1>Testing d10 System Functions</h1>
+    <div id="output"></div>
+    
+    <script src="js/d10-system.js"></script>
+    <script>
+        setTimeout(() => {
+            const output = document.getElementById("output");
+            
+            // Test basic functions
+            try {
+                output.innerHTML += "<h2>Testing scoreToDots:</h2>";
+                output.innerHTML += `scoreToDots(15) = ${scoreToDots(15)}<br>`;
+                
+                output.innerHTML += "<h2>Testing getDotsDisplay:</h2>";
+                output.innerHTML += `getDotsDisplay(3, "STR") = ${getDotsDisplay(3, "STR")}<br>`;
+                
+                output.innerHTML += "<h2>Testing rollDicePool:</h2>";
+                const roll = rollDicePool(3);
+                output.innerHTML += `rollDicePool(3) = ${roll.successes} successes from [${roll.rolls.join(", ")}]<br>`;
+                
+                output.innerHTML += "<h2> All functions working!</h2>";
+            } catch (e) {
+                output.innerHTML += `<h2> Error: ${e.message}</h2>`;
+            }
+        }, 100);
+    </script>
+</body>
+</html>

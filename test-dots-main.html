@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Dots - Proyecto Principal</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/bestiary.css">
+    <link rel="stylesheet" href="css/d10-dots.css">
+    <style>
+        body { padding: 20px; background: #f5f5f5; }
+        .test-container { 
+            background: white; 
+            padding: 20px; 
+            margin: 10px 0; 
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; text-align: center; }
+        .success { color: #4CAF50; font-weight: bold; }
+        .stat-example { 
+            margin: 10px 0; 
+            padding: 10px; 
+            background: #f9f9f9; 
+            border-radius: 4px; 
+        }
+    </style>
+</head>
+<body>
+    <h1>🎲 Test Dots D10 - Proyecto Principal 🎲</h1>
+    
+    <div class="test-container">
+        <h2 class="success">¡CSS Cargado Correctamente!</h2>
+        <p>Si ves este mensaje con estilos, significa que el CSS se está cargando.</p>
+        
+        <div class="stat-example">
+            <strong>STR 15 (3 dots):</strong> 
+            <span class="ability-dots stats__disp-as-score--physical">
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+                <span class="ability-dot ability-dot--empty">○</span>
+            </span>
+        </div>
+        
+        <div class="stat-example">
+            <strong>INT 18 (5 dots):</strong> 
+            <span class="ability-dots stats__disp-as-score--mental">
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+            </span>
+        </div>
+        
+        <div class="stat-example">
+            <strong>STR 24 (8 dots):</strong> 
+            <span class="ability-dots stats__disp-as-score--physical">
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot ability-dot--filled">●</span>
+                <span class="ability-dot-extra"> +3</span>
+            </span>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Simulación de Tabla Monster (Classic Style)</h2>
+        <table class="w-100 stats monster">
+            <tr>
+                <th class="ve-col-2 ve-text-center bold">
+                    STR<br>
+                    <span class="small">15 
+                        <span class="ability-dots">
+                            <span class="ability-dot ability-dot--filled">●</span>
+                            <span class="ability-dot ability-dot--filled">●</span>
+                            <span class="ability-dot ability-dot--filled">●</span>
+                            <span class="ability-dot ability-dot--empty">○</span>
+                            <span class="ability-dot ability-dot--empty">○</span>
+                        </span>
+                    </span>
+                </th>
+                <th class="ve-col-2 ve-text-center bold">
+                    DEX<br>
+                    <span class="small">14 
+                        <span class="ability-dots">
+                            <span class="ability-dot ability-dot--filled">●</span>
+                            <span class="ability-dot ability-dot--filled">●</span>
+                            <span class="ability-dot ability-dot--filled">●</span>
+                            <span class="ability-dot ability-dot--empty">○</span>
+                            <span class="ability-dot ability-dot--empty">○</span>
+                        </span>
+                    </span>
+                </th>
+                <th class="ve-col-2 ve-text-center bold">
+                    CON<br>
+                    <span class="small">12 
+                        <span class="ability-dots">
+                            <span class="ability-dot ability-dot--filled">●</span>
+                            <span class="ability-dot ability-dot--filled">●</span>
+                            <span class="ability-dot ability-dot--empty">○</span>
+                            <span class="ability-dot ability-dot--empty">○</span>
+                            <span class="ability-dot ability-dot--empty">○</span>
+                        </span>
+                    </span>
+                </th>
+            </tr>
+            <tr>
+                <td class="ve-text-center">+2</td>
+                <td class="ve-text-center">+2</td>
+                <td class="ve-text-center">+1</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="test-container">
+        <h2>Siguiente paso:</h2>
+        <p><strong>¡Si ves los dots de colores arriba, todo está funcionando correctamente!</strong></p>
+        <p>Ahora puedes abrir <code>bestiary.html</code> y deberías ver los dots en los stat blocks de los monstruos.</p>
+        <p style="color: #666; font-style: italic;">
+            Los dots rojos representan habilidades físicas (STR, DEX, CON)<br>
+            Los dots azules representan habilidades mentales (INT, WIS, CHA)
+        </p>
+    </div>
+</body>
+</html> 
