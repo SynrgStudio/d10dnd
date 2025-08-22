@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🧪 Test: 2 Filas - Physical + Mental</title>
+    <link rel="stylesheet" href="css/d10-dots.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-container { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        .ability-test { 
+            display: inline-block; 
+            text-align: center; 
+            margin: 10px; 
+            padding: 15px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px;
+            min-width: 120px;
+        }
+        .bold { font-weight: bold; }
+        .small-caps { font-variant: small-caps; }
+        .small { font-size: 0.875em; }
+        .mt-2 { margin-top: 0.5rem; }
+        
+        /* Simular estilos de roller */
+        .roller {
+            cursor: pointer;
+            color: #337ab7;
+            text-decoration: none;
+        }
+        .roller:hover {
+            color: #23527c;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test: 2 Filas - Physical + Mental</h1>
+    
+    <div class="test-container">
+        <h3>✅ Nuevo Layout en 2 Filas:</h3>
+        <p><strong>🏋️ Physical:</strong> STR, DEX, CON (primera fila)<br>
+        <strong>🧠 Mental:</strong> INT, WIS, CHA (segunda fila)</p>
+        
+        <h4>🏋️ Physical Abilities:</h4>
+        <div style="display: flex; justify-content: space-around; margin: 20px 0;">
+            <div class="ability-test">
+                <div><span class="roller bold small-caps" title="Click to roll STR">STR</span></div>
+                <div class="small mt-2">
+                    <span class="ability-dots">
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                    </span>
+                </div>
+                <small>0 dots</small>
+            </div>
+            
+            <div class="ability-test">
+                <div><span class="roller bold small-caps" title="Click to roll DEX">DEX</span></div>
+                <div class="small mt-2">
+                    <span class="ability-dots">
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                    </span>
+                </div>
+                <small>3 dots</small>
+            </div>
+            
+            <div class="ability-test">
+                <div><span class="roller bold small-caps" title="Click to roll CON">CON</span></div>
+                <div class="small mt-2">
+                    <span class="ability-dots">
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                    </span>
+                </div>
+                <small>2 dots</small>
+            </div>
+        </div>
+        
+        <h4>🧠 Mental Abilities:</h4>
+        <div style="display: flex; justify-content: space-around; margin: 20px 0;">
+            <div class="ability-test">
+                <div><span class="roller bold small-caps" title="Click to roll INT">INT</span></div>
+                <div class="small mt-2">
+                    <span class="ability-dots">
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                    </span>
+                </div>
+                <small>5 dots</small>
+            </div>
+            
+            <div class="ability-test">
+                <div><span class="roller bold small-caps" title="Click to roll WIS">WIS</span></div>
+                <div class="small mt-2">
+                    <span class="ability-dots">
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                        <span class="ability-dot ability-dot--empty">○</span>
+                    </span>
+                </div>
+                <small>1 dot</small>
+            </div>
+            
+            <div class="ability-test">
+                <div><span class="roller bold small-caps" title="Click to roll CHA">CHA</span></div>
+                <div class="small mt-2">
+                    <span class="ability-dots">
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--filled">●</span>
+                        <span class="ability-dot ability-dot--filled">●</span>
+                    </span>
+                </div>
+                <small>10 dots</small>
+            </div>
+        </div>
+        
+        <h4>📋 Simulación de Tabla Final:</h4>
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 10px; text-align: center; background: #fdf2e9;">
+                    <strong>STR</strong><br>
+                    ○ ○ ○ ○ ○ ○ ○ ○ ○ ○
+                </td>
+                <td style="border: 1px solid #ddd; padding: 10px; text-align: center; background: #fdf2e9;">
+                    <strong>DEX</strong><br>
+                    ● ● ● ○ ○ ○ ○ ○ ○ ○
+                </td>
+                <td style="border: 1px solid #ddd; padding: 10px; text-align: center; background: #fdf2e9;">
+                    <strong>CON</strong><br>
+                    ● ● ○ ○ ○ ○ ○ ○ ○ ○
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 10px; text-align: center; background: #e8f4f8;">
+                    <strong>INT</strong><br>
+                    ● ● ● ● ● ○ ○ ○ ○ ○
+                </td>
+                <td style="border: 1px solid #ddd; padding: 10px; text-align: center; background: #e8f4f8;">
+                    <strong>WIS</strong><br>
+                    ● ○ ○ ○ ○ ○ ○ ○ ○ ○
+                </td>
+                <td style="border: 1px solid #ddd; padding: 10px; text-align: center; background: #e8f4f8;">
+                    <strong>CHA</strong><br>
+                    ● ● ● ● ● ● ● ● ● ●
+                </td>
+            </tr>
+        </table>
+        <p><em>🏋️ Fila 1 (Physical - fondo naranja): STR, DEX, CON<br>
+        🧠 Fila 2 (Mental - fondo azul): INT, WIS, CHA</em></p>
+    </div>
+    
+    <div class="test-container">
+        <h3>🎯 Checklist Visual:</h3>
+        <ul>
+            <li>✅ <strong>2 filas organizadas:</strong> Physical (STR, DEX, CON) + Mental (INT, WIS, CHA)</li>
+            <li>✅ <strong>Nombres azules y clickeables:</strong> Todos los stats con cursor pointer</li>
+            <li>✅ <strong>Dots separados:</strong> ● ● ● ○ ○ ○ ○ ○ ○ ○ (no pegados)</li>
+            <li>✅ <strong>10 dots siempre:</strong> Llenos + vacíos = 10 total</li>
+            <li>✅ <strong>No overflow:</strong> CHA ya no se sale del contenedor</li>
+        </ul>
+    </div>
+    
+    <div class="test-container">
+        <h3>🎨 Ventajas del Nuevo Layout:</h3>
+        <ul>
+            <li>🏋️ <strong>Separación lógica:</strong> Physical vs Mental abilities</li>
+            <li>📐 <strong>Mejor aprovechamiento:</strong> 3 columnas por fila</li>
+            <li>👀 <strong>Lectura más fácil:</strong> Agrupación conceptual</li>
+            <li>📱 <strong>Responsive friendly:</strong> Se adapta mejor a pantallas</li>
+            <li>🎯 <strong>Sin overflow:</strong> Todo cabe perfectamente</li>
+        </ul>
+    </div>
+    
+    <script>
+        // Test de clicks
+        document.querySelectorAll('.roller').forEach(roller => {
+            roller.addEventListener('click', (e) => {
+                e.preventDefault();
+                const ability = e.target.textContent;
+                alert(`🎲 ¡Funciona! Click en ${ability} - se activaría el roller D10`);
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -4406,7 +4406,7 @@ Renderer.utils = class {
 				const fauxEntry = {
 					type: "dice",
 					rollable: true,
-					subType: "d20",
+					subType: tag === "@ability" ? "d10" : "d20", // D10 para habilidades, D20 para saves
 					context: {type: tag === "@ability" ? "abilityCheck" : "savingThrow"},
 				};
 
@@ -4432,17 +4432,48 @@ Renderer.utils = class {
 					fauxEntry.toRoll = `1d20${rawScoreOrMod}`;
 					fauxEntry.d20mod = rawScoreOrMod;
 				} else {
-					const scoreOrMod = Number(rawScoreOrMod) || 0;
-					const mod = (tag === "@ability" ? Parser.getAbilityModifier : UiUtil.intToBonus)(scoreOrMod);
-
+									const scoreOrMod = Number(rawScoreOrMod) || 0;
+				
+				// Sistema D10: Convertir score a dots y usar nd10 en lugar de 1d20
+				if (tag === "@ability") {
+					const convertScoreToDots = (score) => {
+						if (score <= 9) return 0;
+						if (score <= 11) return 0;  // ¡CORREGIDO! 10-11 = 0 dots
+						if (score <= 13) return 1;
+						if (score <= 15) return 2;
+						if (score <= 17) return 3;
+						if (score <= 19) return 5;  // ¡SALTO! 18-19 = 5 dots
+						if (score <= 21) return 6;
+						if (score <= 23) return 7;
+						if (score <= 25) return 8;
+						if (score <= 27) return 9;
+						return Math.floor((score - 18) / 2) + 5;
+					};
+					
+					const dots = convertScoreToDots(scoreOrMod);
+					const mod = Parser.getAbilityModifier(scoreOrMod);
+					
 					if (displayText) fauxEntry.displayText = displayText;
-					else {
-						if (tag === "@ability") fauxEntry.displayText = `${scoreOrMod}\u00A0(${mod})`;
-						else fauxEntry.displayText = mod;
+					else fauxEntry.displayText = `${scoreOrMod}\u00A0(${mod})`;
+					
+					// Sistema D10: Si 0 dots = fallo automático, no hay tirada
+					if (dots === 0) {
+						fauxEntry.toRoll = "0"; // Fallo automático
+						fauxEntry.isAutoFailure = true;
+					} else {
+						fauxEntry.toRoll = `${dots}d10`;
 					}
-
+					fauxEntry.d20mod = mod; // Mantenemos para compatibilidad
+					fauxEntry.d10dots = dots; // Guardamos los dots para referencia
+				} else {
+					const mod = UiUtil.intToBonus(scoreOrMod);
+					
+					if (displayText) fauxEntry.displayText = displayText;
+					else fauxEntry.displayText = mod;
+					
 					fauxEntry.toRoll = `1d20${mod}`;
 					fauxEntry.d20mod = mod;
+				}
 				}
 
 				return fauxEntry;
@@ -10730,14 +10761,19 @@ Renderer.monster = class {
 
 		if (Parser.ABIL_ABVS.every(abv => this._getRenderedAbilityScores_isSpecial({mon, abv}))) return ptSpecial;
 
-		// Función para convertir puntuación a dots
+		// Función para convertir puntuación a dots (TABLA OFICIAL CORREGIDA)
 		const convertScoreToDots = (score) => {
 			if (score <= 9) return 0;
-			if (score <= 11) return 1;
-			if (score <= 13) return 2;
-			if (score <= 15) return 3;
-			if (score <= 17) return 4;
-			return 5 + Math.floor((score - 18) / 2);
+			if (score <= 11) return 0;  // ¡CORREGIDO! 10-11 = 0 dots
+			if (score <= 13) return 1;
+			if (score <= 15) return 2;
+			if (score <= 17) return 3;
+			if (score <= 19) return 5;  // ¡SALTO! 18-19 = 5 dots
+			if (score <= 21) return 6;
+			if (score <= 23) return 7;
+			if (score <= 25) return 8;
+			if (score <= 27) return 9;
+			return Math.floor((score - 18) / 2) + 5;
 		};
 
 		// Renderizado de puntuaciones con dots d10
@@ -10759,64 +10795,59 @@ Renderer.monster = class {
 		const {abvsRemaining, ptsSpecial} = this._getRenderedAbilityScores_getSpecialMeta({mon});
 		const ptSpecial = ptsSpecial.map(pt => `<tr><td colspan="6">${pt}</td></tr>`).join("");
 
-		const ptHeaders = Array.from(
-			{length: 14},
-			(_, i) => {
-				const colClass = i % 5 === 0
-					? "stats-tbl-ability-scores__lbl-abv"
-					: i % 5 === 4 ? "stats-tbl-ability-scores__lbl-spacer" : "stats-tbl-ability-scores__lbl-score";
-				return `<td class="${colClass}"><div class="ve-muted ve-text-center small-caps no-wrap">${i % 5 === 2 ? "mod" : i % 5 === 3 ? "save" : ""}</div></td>`;
-			},
-		)
-			.join("");
-
-		Object.keys(mon.save || {})
-			.map(s => Renderer.monster.getSave(Renderer.get(), s, mon.save[s]));
-
-		// Función para convertir puntuación a dots
+		// Función para convertir puntuación a dots (TABLA OFICIAL CORREGIDA)
 		const convertScoreToDots = (score) => {
 			if (score <= 9) return 0;
-			if (score <= 11) return 1;
-			if (score <= 13) return 2;
-			if (score <= 15) return 3;
-			if (score <= 17) return 4;
-			return 5 + Math.floor((score - 18) / 2);
+			if (score <= 11) return 0;  // ¡CORREGIDO! 10-11 = 0 dots
+			if (score <= 13) return 1;
+			if (score <= 15) return 2;
+			if (score <= 17) return 3;
+			if (score <= 19) return 5;  // ¡SALTO! 18-19 = 5 dots
+			if (score <= 21) return 6;
+			if (score <= 23) return 7;
+			if (score <= 25) return 8;
+			if (score <= 27) return 9;
+			return Math.floor((score - 18) / 2) + 5;
 		};
 
-		const ptsCells = Parser.ABIL_ABVS
-			.flatMap((abv, i) => {
-				const styleName = i < 3 ? "physical" : "mental";
-
+		// Nueva tabla simplificada: 2 filas (Physical: STR/DEX/CON, Mental: INT/WIS/CHA)
+		const physicalAbilities = ["str", "dex", "con"];
+		const mentalAbilities = ["int", "wis", "cha"];
+		
+		const renderAbilityRow = (abilities, styleName) => {
+			return abilities.map(abv => {
 				const numScore = abvsRemaining.includes(abv) ? mon[abv] : null;
-				const ptScore = numScore != null ? `${mon[abv]}` : `\u2013`;
-				const ptBonus = numScore != null ? Renderer.utils.getAbilityRoller(mon, abv, {isDisplayAsBonus: true}) : `\u2013`;
-				const ptSave = mon.save?.[abv] == null
-					? numScore == null ? "\u2013" : renderer.render(`{@savingThrow ${abv} ${Parser.getAbilityModNumber(ptScore)}}`)
-					: renderer.render(`{@savingThrow ${abv} ${mon.save[abv]}}`);
-
-				// Agregar dots d10
 				const dots = numScore != null ? convertScoreToDots(numScore) : 0;
-				const dotDisplay = numScore != null ? `<br><span class="small">${this._renderD10Dots(dots)}</span>` : "";
-
-				return [
-					`<td class="stats-tbl-ability-scores__lbl-abv stats__disp-as-score--${styleName} stats__disp-as-score--label"><div class="bold small-caps ve-text-right">${abv.toTitleCase()}${dotDisplay}</div></td>`,
-					`<td class="stats-tbl-ability-scores__lbl-score stats__disp-as-score--${styleName}"><div class="ve-text-center">${ptScore}</div></td>`,
-					`<td class="stats-tbl-ability-scores__lbl-score stats__disp-as-bonus--${styleName}"><div class="ve-text-center">${ptBonus}</div></td>`,
-					`<td class="stats-tbl-ability-scores__lbl-score stats__disp-as-bonus--${styleName}"><div class="ve-text-center">${ptSave}</div></td>`,
-					i % 3 !== 2 ? `<td class="stats-tbl-ability-scores__lbl-spacer"><div></div></td>` : "",
-				];
-			});
-
-		const ptsCellsPhysical = ptsCells.slice(0, 14);
-		const ptsCellsMental = ptsCells.slice(14);
+				
+				// Crear directamente el roller clickeable usando la lógica original
+				let clickableContent;
+				if (numScore != null) {
+					// Usar directamente la funcionalidad del roller como en el original
+					const abilityRoller = Renderer.utils.getAbilityRoller(mon, abv);
+					// Reemplazar el contenido del span pero mantener toda la funcionalidad
+					clickableContent = abilityRoller.replace(/>.*?<\/span>/, `>${abv.toUpperCase()}</span>`);
+					// Agregar clases para styling
+					clickableContent = clickableContent.replace('class="', 'class="bold small-caps ');
+				} else {
+					clickableContent = `<span class="bold small-caps">${abv.toUpperCase()}</span>`;
+				}
+				
+				return `<td class="ve-col-4 ve-text-center stats__disp-as-score--${styleName}">
+					<div>${clickableContent}</div>
+					<div class="small mt-2">${this._renderD10Dots(dots)}</div>
+				</td>`;
+			}).join("");
+		};
+		
+		const physicalRow = renderAbilityRow(physicalAbilities, "physical");
+		const mentalRow = renderAbilityRow(mentalAbilities, "mental");
 
 		return `
 		<tr><td colspan="6" class="pt-0 pb-3">
 			<table class="w-100">
 				<tbody>
-					<tr>${ptHeaders}</tr>
-					<tr>${ptsCellsPhysical.join("")}</tr>
-					<tr>${ptsCellsMental.join("")}</tr>
+					<tr>${physicalRow}</tr>
+					<tr>${mentalRow}</tr>
 				</tbody>
 			</table>
 		</td></tr>
@@ -10824,12 +10855,12 @@ Renderer.monster = class {
 		${ptSpecial}`;
 	}
 
-	// Función auxiliar para renderizar los dots d10
+	// Función auxiliar para renderizar los dots d10 (siempre 10 dots)
 	static _renderD10Dots(dotCount) {
-		if (typeof dotCount !== 'number' || dotCount < 0) return "";
+		if (typeof dotCount !== 'number' || dotCount < 0) dotCount = 0;
 		
 		const dots = [];
-		const maxDots = 5;
+		const maxDots = 10; // Mostrar siempre 10 dots
 		
 		for (let i = 0; i < maxDots; i++) {
 			if (i < dotCount) {
@@ -10837,11 +10868,6 @@ Renderer.monster = class {
 			} else {
 				dots.push('<span class="ability-dot ability-dot--empty">○</span>');
 			}
-		}
-		
-		// Si hay más de 5 dots, mostrar el número adicional
-		if (dotCount > maxDots) {
-			dots.push(`<span class="ability-dot-extra"> +${dotCount - maxDots}</span>`);
 		}
 		
 		return `<span class="ability-dots">${dots.join('')}</span>`;

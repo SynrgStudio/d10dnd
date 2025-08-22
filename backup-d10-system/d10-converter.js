@@ -1,12 +1,16 @@
-// Función para convertir una puntuación numérica a dots
+// Función para convertir una puntuación numérica a dots (TABLA OFICIAL CORREGIDA)
 function convertScoreToDots(score) {
 	if (score <= 9) return 0;
-	if (score <= 11) return 1;
-	if (score <= 13) return 2;
-	if (score <= 15) return 3;
-	if (score <= 17) return 4;
-	// Para 18 o más
-	return 5 + Math.floor((score - 18) / 2);
+	if (score <= 11) return 0;  // ¡CORREGIDO! 10-11 = 0 dots
+	if (score <= 13) return 1;
+	if (score <= 15) return 2;
+	if (score <= 17) return 3;
+	if (score <= 19) return 5;  // ¡SALTO! 18-19 = 5 dots
+	if (score <= 21) return 6;
+	if (score <= 23) return 7;
+	if (score <= 25) return 8;
+	if (score <= 27) return 9;
+	return Math.floor((score - 18) / 2) + 5;
 }
 
 // Función para generar la visualización HTML de dots

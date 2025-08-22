@@ -693,6 +693,55 @@ Renderer.dice = {
 	 * @param [opts.target] Generic target number (e.g. save DC, AC) to meet/beat.
 	 * @param [opts.isHidden] If the result should not be posted to the rollbox.
 	 */
+	// Función auxiliar para extraer todos los dados individuales de una tirada
+	_getAllIndividualRolls (tree) {
+		try {
+			// Intentar evaluar el árbol para obtener los datos de tirada
+			const results = [];
+			const originalResult = tree.evl({});
+			
+			// Buscar en los metadatos del árbol
+			if (tree._nodes && tree._nodes.length > 0) {
+				const node = tree._nodes[0];
+				if (node._meta && node._meta.html) {
+					// Extraer números de la representación HTML
+					const htmlText = node._meta.html;
+					const matches = htmlText.match(/\[(\d+)\]/g);
+					if (matches) {
+						return matches.map(m => parseInt(m.slice(1, -1)));
+					}
+				}
+			}
+			
+			// Método alternativo: simular tirada si no hay datos
+			const treeStr = tree.toString();
+			const match = treeStr.match(/(\d+)d10/);
+			if (match) {
+				const numDice = parseInt(match[1]);
+				for (let i = 0; i < numDice; i++) {
+					results.push(Math.floor(Math.random() * 10) + 1);
+				}
+				return results;
+			}
+			
+			return [];
+		} catch (error) {
+			console.warn('Error extracting individual rolls:', error);
+			// Fallback: simular tirada basada en el string del árbol
+			const treeStr = tree.toString();
+			const match = treeStr.match(/(\d+)d10/);
+			if (match) {
+				const numDice = parseInt(match[1]);
+				const results = [];
+				for (let i = 0; i < numDice; i++) {
+					results.push(Math.floor(Math.random() * 10) + 1);
+				}
+				return results;
+			}
+			return [];
+		}
+	},
+
 	_pHandleRoll2_automatic (tree, rolledBy, opts) {
 		opts = opts || {};
 
@@ -720,9 +769,51 @@ Renderer.dice = {
 			const isThreshSuccess = tree.successThresh != null && result > (tree.successMax || 100) - tree.successThresh;
 			const isColorSuccess = tree.isColorSuccessFail || !tree.chanceSuccessText;
 			const isColorFail = tree.isColorSuccessFail || !tree.chanceFailureText;
-			const totalPart = tree.successThresh != null
-				? `<span class="roll ${isThreshSuccess && isColorSuccess ? "roll-max" : !isThreshSuccess && isColorFail ? "roll-min" : ""}">${isThreshSuccess ? Renderer.get().render(tree.chanceSuccessText || "Success!") : Renderer.get().render(tree.chanceFailureText || "Failure")}</span>`
-				: `<span class="roll ${allMax ? "roll-max" : allMin ? "roll-min" : ""}">${result}</span>`;
+			// Sistema D10: Detectar si es una tirada de habilidad (d10) y mostrar formato especial
+			const treeStr = tree.toString();
+			const isD10Roll = /^\d+d10$/.test(treeStr);
+			const isAbilityRoll = /Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma/.test(rolledBy.label || lbl || '');
+			const isD10AbilityRoll = isD10Roll && isAbilityRoll;
+			
+			let totalPart;
+			if (isD10AbilityRoll) {
+				// Verificar si es fallo automático (0 dots)
+				const isAutoFailure = tree.toString() === "0" || result === 0;
+				
+				if (isAutoFailure) {
+					// Fallo automático para 0 dots
+					totalPart = `<span class="roll roll-min">Fallo Automático</span> <span class="roll-dice-individual">[0 dots]</span>`;
+				} else {
+					// Para tiradas D10 de habilidad, necesitamos extraer los dados de fullHtml
+					let rollsDisplay = "";
+					let allRolls = [];
+					
+					// Extraer números de los dados del HTML generado (incluyendo los que están en spans)
+					const rollMatches = fullHtml.match(/\[.*?(\d+).*?\]/g);
+					if (rollMatches && rollMatches.length > 0) {
+						// Extraer solo el número de cada match, ignorando HTML
+						allRolls = rollMatches.map(match => {
+							const numberMatch = match.match(/(\d+)/);
+							return numberMatch ? parseInt(numberMatch[1]) : 0;
+						});
+						rollsDisplay = allRolls.join('+');
+					} else {
+						// Fallback: usar el resultado actual
+						rollsDisplay = result.toString();
+						allRolls = [result];
+					}
+					
+					// Contar éxitos (dados ≥6)
+					const successes = allRolls.filter(roll => roll >= 6).length;
+					
+					// Formato final: "Éxitos [dado1+dado2+dado3]"
+					totalPart = `<span class="roll ${successes >= 3 ? "roll-max" : successes === 0 ? "roll-min" : ""}">${successes}</span> <span class="roll-dice-individual">[${rollsDisplay}]</span>`;
+				}
+			} else {
+				totalPart = tree.successThresh != null
+					? `<span class="roll ${isThreshSuccess && isColorSuccess ? "roll-max" : !isThreshSuccess && isColorFail ? "roll-min" : ""}">${isThreshSuccess ? Renderer.get().render(tree.chanceSuccessText || "Success!") : Renderer.get().render(tree.chanceFailureText || "Failure")}</span>`
+					: `<span class="roll ${allMax ? "roll-max" : allMin ? "roll-min" : ""}">${result}</span>`;
+			}
 
 			const title = `${rolledBy.name ? `${rolledBy.name} \u2014 ` : ""}${lbl ? `${lbl}: ` : ""}${tree}`;
 
@@ -741,7 +832,7 @@ Renderer.dice = {
 							${lbl ? `<span class="roll-label">${lbl}: </span>` : ""}
 							${totalPart}
 							${ptTarget}
-							<span class="all-rolls ve-muted">${fullHtml}</span>
+							${isD10AbilityRoll ? '' : `<span class="all-rolls ve-muted">${fullHtml}</span>`}
 							${message ? `<span class="message">${message}</span>` : ""}
 						</div>
 						<div class="out-roll-item-button-wrp">

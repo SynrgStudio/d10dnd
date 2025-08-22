@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test D10 Dice System</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/bestiary.css">
+    <link rel="stylesheet" href="css/d10-dots.css">
+    <style>
+        body { padding: 20px; background: #f5f5f5; }
+        .test-container { 
+            background: white; 
+            padding: 20px; 
+            margin: 10px 0; 
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; text-align: center; }
+        .success { color: #4CAF50; font-weight: bold; }
+        .test-monster {
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .roll-dice-individual {
+            color: #666;
+            font-size: 0.9em;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎲 Test Sistema D10 Dice 🎲</h1>
+    
+    <div class="test-container">
+        <h2 class="success">¡Prueba del Sistema de Dados D10!</h2>
+        <p>Esta página prueba el nuevo sistema de dados donde las habilidades usan nd10 en lugar de 1d20.</p>
+        
+        <div class="test-monster">
+            <h3>Monstruo de Prueba: Goblin</h3>
+            <table class="w-100 stats monster">
+                <tr>
+                    <th class="ve-col-2 ve-text-center bold">
+                        STR<br>
+                        <span class="small">8 
+                            <span class="ability-dots">
+                                <span class="ability-dot ability-dot--empty">○</span>
+                                <span class="ability-dot ability-dot--empty">○</span>
+                                <span class="ability-dot ability-dot--empty">○</span>
+                                <span class="ability-dot ability-dot--empty">○</span>
+                                <span class="ability-dot ability-dot--empty">○</span>
+                            </span>
+                        </span>
+                    </th>
+                    <th class="ve-col-2 ve-text-center bold">
+                        DEX<br>
+                        <span class="small">14 
+                            <span class="ability-dots">
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot ability-dot--empty">○</span>
+                                <span class="ability-dot ability-dot--empty">○</span>
+                            </span>
+                        </span>
+                    </th>
+                    <th class="ve-col-2 ve-text-center bold">
+                        CON<br>
+                        <span class="small">10 
+                            <span class="ability-dots">
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot ability-dot--empty">○</span>
+                                <span class="ability-dot ability-dot--empty">○</span>
+                                <span class="ability-dot ability-dot--empty">○</span>
+                                <span class="ability-dot ability-dot--empty">○</span>
+                            </span>
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <td class="ve-text-center">
+                        <span class="roller render-roller" title="Strength" data-packed-dice='{"type":"dice","rollable":true,"subType":"d10","toRoll":"1d10","name":"Strength"}'>
+                            8 (-1)
+                        </span>
+                    </td>
+                    <td class="ve-text-center">
+                        <span class="roller render-roller" title="Dexterity" data-packed-dice='{"type":"dice","rollable":true,"subType":"d10","toRoll":"3d10","name":"Dexterity"}'>
+                            14 (+2)
+                        </span>
+                    </td>
+                    <td class="ve-text-center">
+                        <span class="roller render-roller" title="Constitution" data-packed-dice='{"type":"dice","rollable":true,"subType":"d10","toRoll":"1d10","name":"Constitution"}'>
+                            10 (+0)
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="test-monster">
+            <h3>Monstruo de Prueba: Dragón Adulto</h3>
+            <table class="w-100 stats monster">
+                <tr>
+                    <th class="ve-col-2 ve-text-center bold">
+                        STR<br>
+                        <span class="small">27 
+                            <span class="ability-dots">
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot-extra"> +4</span>
+                            </span>
+                        </span>
+                    </th>
+                    <th class="ve-col-2 ve-text-center bold">
+                        INT<br>
+                        <span class="small">16 
+                            <span class="ability-dots">
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot ability-dot--empty">○</span>
+                            </span>
+                        </span>
+                    </th>
+                    <th class="ve-col-2 ve-text-center bold">
+                        CHA<br>
+                        <span class="small">21 
+                            <span class="ability-dots">
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot ability-dot--filled">●</span>
+                                <span class="ability-dot-extra"> +1</span>
+                            </span>
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <td class="ve-text-center">
+                        <span class="roller render-roller" title="Strength (9 dots)" data-packed-dice='{"type":"dice","rollable":true,"subType":"d10","toRoll":"9d10","name":"Strength"}'>
+                            27 (+8)
+                        </span>
+                    </td>
+                    <td class="ve-text-center">
+                        <span class="roller render-roller" title="Intelligence (4 dots)" data-packed-dice='{"type":"dice","rollable":true,"subType":"d10","toRoll":"4d10","name":"Intelligence"}'>
+                            16 (+3)
+                        </span>
+                    </td>
+                    <td class="ve-text-center">
+                        <span class="roller render-roller" title="Charisma (6 dots)" data-packed-dice='{"type":"dice","rollable":true,"subType":"d10","toRoll":"6d10","name":"Charisma"}'>
+                            21 (+5)
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Instrucciones de Prueba</h2>
+        <ol>
+            <li><strong>Haz clic en cualquier habilidad</strong> (números como "8 (-1)" o "27 (+8)")</li>
+            <li><strong>Observa el dice roller</strong> que aparece en la esquina inferior derecha</li>
+            <li><strong>¿Qué deberías ver?</strong>
+                <ul>
+                    <li>Para STR 8 (0 dots): Debería tirar 1d10 (mínimo)</li>
+                    <li>Para DEX 14 (3 dots): Debería tirar 3d10</li>
+                    <li>Para STR 27 (9 dots): Debería tirar 9d10</li>
+                </ul>
+            </li>
+            <li><strong>¿Cómo debería verse el resultado?</strong>
+                <ul>
+                    <li>Formato esperado: "Strength: 3 [4+2+5+8+1]"</li>
+                    <li>Donde 3 = número de éxitos (dados ≥6)</li>
+                    <li>Y [4+2+5+8+1] = cada dado individual</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+    
+    <script src="js/parser.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/render-dice.js"></script>
+    <script src="js/scalecreature.js"></script>
+    <script>
+        // Inicializar el dice roller
+        $(document).ready(function() {
+            // Simular la inicialización básica necesaria
+            if (typeof Renderer !== 'undefined' && Renderer.dice) {
+                console.log("Dice roller inicializado correctamente");
+                
+                // Añadir event listeners para los rollers
+                $('.roller').on('click', function(e) {
+                    const data = $(this).attr('data-packed-dice');
+                    if (data) {
+                        try {
+                            const entry = JSON.parse(data);
+                            const rolledBy = {name: "Test", label: entry.name};
+                            console.log("Intentando tirada:", entry);
+                            Renderer.dice.pRollEntry(entry, rolledBy);
+                        } catch (ex) {
+                            console.error("Error al hacer tirada:", ex);
+                        }
+                    }
+                });
+            } else {
+                console.log("Renderer.dice no disponible");
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,20 +1,22 @@
 /* Estilos para el Sistema D10 - Visualización de Dots */
 
-/* Contenedor principal de dots */
+/* Contenedor principal de dots (una línea con separación) */
 .ability-dots {
 	display: inline-flex;
 	align-items: center;
-	gap: 2px;
+	gap: 3px; /* Separación clara entre dots */
 	font-family: monospace;
-	white-space: nowrap;
+	line-height: 1;
+	justify-content: center;
 }
 
 /* Dots individuales */
 .ability-dot {
 	display: inline-block;
-	font-size: 16px;
+	font-size: 14px;
 	line-height: 1;
 	transition: color 0.2s ease;
+	text-align: center;
 }
 
 /* Dot relleno (activo) */
@@ -29,12 +31,20 @@
 	opacity: 0.6;
 }
 
-/* Número adicional para dots > 5 */
-.ability-dot-extra {
-	margin-left: 4px;
-	font-size: 12px;
-	color: #666;
-	font-weight: bold;
+/* Ajuste para layout de 2 filas */
+.ve-col-4 {
+	width: 33.333%; /* 3 columnas por fila */
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+	.ability-dots {
+		gap: 2px; /* Menos separación en móvil */
+	}
+	
+	.ability-dot {
+		font-size: 12px;
+	}
 }
 
 /* Contenedor de toggle para el modo D10 */

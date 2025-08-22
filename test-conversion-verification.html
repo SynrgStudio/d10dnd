@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✅ Verificación Tabla Conversión D10</title>
+    <link rel="stylesheet" href="css/d10-dots.css">
+    <style>
+        body { padding: 20px; font-family: Arial, sans-serif; }
+        .test-table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin: 20px 0; 
+        }
+        .test-table th, .test-table td { 
+            border: 1px solid #ddd; 
+            padding: 8px; 
+            text-align: center; 
+        }
+        .test-table th { background-color: #f2f2f2; }
+        .correct { background-color: #d4edda; color: #155724; }
+        .incorrect { background-color: #f8d7da; color: #721c24; }
+        .dice-example { font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>✅ Verificación de la Tabla de Conversión D10</h1>
+    
+    <h2>📋 Tabla Oficial vs Implementación</h2>
+    <table class="test-table">
+        <thead>
+            <tr>
+                <th>Puntuación</th>
+                <th>Dots Oficiales</th>
+                <th>Dots Calculados</th>
+                <th>Estado</th>
+                <th>Dados</th>
+                <th>Ejemplo Visual</th>
+            </tr>
+        </thead>
+        <tbody id="verification-table">
+            <!-- Se llenará con JavaScript -->
+        </tbody>
+    </table>
+    
+    <h2>🎯 Ejemplos de Tiradas</h2>
+    <div id="dice-examples">
+        <!-- Se llenará con JavaScript -->
+    </div>
+    
+    <script>
+        // Función de conversión corregida (copiada del código)
+        function convertScoreToDots(score) {
+            if (score <= 9) return 0;
+            if (score <= 11) return 0;  // ¡CORREGIDO! 10-11 = 0 dots
+            if (score <= 13) return 1;
+            if (score <= 15) return 2;
+            if (score <= 17) return 3;
+            if (score <= 19) return 5;  // ¡SALTO! 18-19 = 5 dots
+            if (score <= 21) return 6;
+            if (score <= 23) return 7;
+            if (score <= 25) return 8;
+            if (score <= 27) return 9;
+            return Math.floor((score - 18) / 2) + 5;
+        }
+        
+        // Función para generar dots visuales
+        function generateDotsHtml(dotCount, maxDots = 5) {
+            const dots = [];
+            for (let i = 0; i < maxDots; i++) {
+                if (i < dotCount) {
+                    dots.push('<span class="ability-dot ability-dot--filled">●</span>');
+                } else {
+                    dots.push('<span class="ability-dot ability-dot--empty">○</span>');
+                }
+            }
+            
+            if (dotCount > maxDots) {
+                dots.push(`<span class="ability-dot-extra"> +${dotCount - maxDots}</span>`);
+            }
+            
+            return `<span class="ability-dots">${dots.join('')}</span>`;
+        }
+        
+        // Tabla oficial de conversión
+        const officialTable = [
+            {score: 8, dots: 0}, {score: 9, dots: 0},
+            {score: 10, dots: 0}, {score: 11, dots: 0},
+            {score: 12, dots: 1}, {score: 13, dots: 1},
+            {score: 14, dots: 2}, {score: 15, dots: 2},
+            {score: 16, dots: 3}, {score: 17, dots: 3},
+            {score: 18, dots: 5}, {score: 19, dots: 5},
+            {score: 20, dots: 6}, {score: 21, dots: 6},
+            {score: 22, dots: 7}, {score: 23, dots: 7},
+            {score: 24, dots: 8}, {score: 25, dots: 8},
+            {score: 26, dots: 9}, {score: 27, dots: 9},
+            {score: 28, dots: 10}, {score: 30, dots: 11}
+        ];
+        
+        // Verificar implementación
+        const tableBody = document.getElementById('verification-table');
+        const examplesDiv = document.getElementById('dice-examples');
+        
+        let allCorrect = true;
+        
+        officialTable.forEach(entry => {
+            const calculated = convertScoreToDots(entry.score);
+            const isCorrect = calculated === entry.dots;
+            
+            if (!isCorrect) allCorrect = false;
+            
+                         const visual = generateDotsHtml(calculated);
+             let diceDisplay;
+             
+             if (calculated === 0) {
+                 diceDisplay = "FALLO AUTO";
+             } else {
+                 diceDisplay = `${calculated}d10`;
+             }
+             
+             const row = `
+                 <tr class="${isCorrect ? 'correct' : 'incorrect'}">
+                     <td><strong>${entry.score}</strong></td>
+                     <td>${entry.dots}</td>
+                     <td>${calculated}</td>
+                     <td>${isCorrect ? '✅' : '❌'}</td>
+                     <td class="dice-example">${diceDisplay}</td>
+                     <td>${visual}</td>
+                 </tr>
+             `;
+            tableBody.innerHTML += row;
+        });
+        
+        // Mostrar resultado general
+        const resultDiv = document.createElement('div');
+        resultDiv.style.cssText = `
+            margin: 20px 0; 
+            padding: 15px; 
+            border-radius: 5px; 
+            font-weight: bold; 
+            text-align: center;
+            background-color: ${allCorrect ? '#d4edda' : '#f8d7da'};
+            color: ${allCorrect ? '#155724' : '#721c24'};
+        `;
+        resultDiv.innerHTML = allCorrect 
+            ? '🎉 ¡PERFECTO! Todas las conversiones son correctas' 
+            : '⚠️ HAY ERRORES en la implementación';
+        
+        document.body.insertBefore(resultDiv, document.querySelector('h2'));
+        
+                 // Ejemplos de tiradas
+         const examples = [
+             {name: 'Goblin STR', score: 8, example: 'STR 8 (0 dots) → FALLO AUTOMÁTICO → "Strength: Fallo Automático [0 dots]"'},
+             {name: 'Commoner STR', score: 10, example: 'STR 10 (0 dots) → FALLO AUTOMÁTICO → "Strength: Fallo Automático [0 dots]"'},
+             {name: 'Human STR', score: 12, example: 'STR 12 (1 dot) → 1d10 → sale 8 → "Strength: 1 [8]"'},
+             {name: 'Elf DEX', score: 14, example: 'DEX 14 (2 dots) → 2d10 → salen 7,3 → "Dexterity: 1 [7+3]"'},
+             {name: 'Wizard INT', score: 18, example: 'INT 18 (5 dots) → 5d10 → salen 6,7,8,2,9 → "Intelligence: 4 [6+7+8+2+9]"'},
+             {name: 'Dragon STR', score: 27, example: 'STR 27 (9 dots) → 9d10 → resultado variable'}
+         ];
+        
+                 examples.forEach(ex => {
+             const dots = convertScoreToDots(ex.score);
+             const visual = generateDotsHtml(dots);
+             
+             let diceDisplay;
+             if (dots === 0) {
+                 diceDisplay = "FALLO AUTOMÁTICO";
+             } else {
+                 diceDisplay = `${dots}d10`;
+             }
+             
+             examplesDiv.innerHTML += `
+                 <div style="margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                     <strong>${ex.name}:</strong> ${visual} (${diceDisplay})<br>
+                     <em>${ex.example}</em>
+                 </div>
+             `;
+         });
+    </script>
+</body>
+</html> 
