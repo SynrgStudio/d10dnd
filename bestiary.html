@@ -17,17 +17,65 @@
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/bestiary.css">
 	<link rel="stylesheet" href="css/encounterbuilder-bundle.css">
-	<link rel="stylesheet" href="css/d10-dots.css?v=1.0">
+	<link rel="stylesheet" href="css/d10-dots.css">
 	
-	<!-- D10 Dots CSS inline como respaldo -->
+	<!-- D10 Dots CSS inline - Respaldo funcional -->
 	<style>
-	.ability-dots { display: inline-flex; align-items: center; gap: 2px; font-family: monospace; white-space: nowrap; }
-	.ability-dot { display: inline-block; font-size: 16px; line-height: 1; transition: color 0.2s ease; }
-	.ability-dot--filled { color: #2e7d32; text-shadow: 0 0 2px rgba(46, 125, 50, 0.3); }
-	.ability-dot--empty { color: #ccc; opacity: 0.6; }
-	.ability-dot-extra { margin-left: 4px; font-size: 12px; color: #666; font-weight: bold; }
-	.stats__disp-as-score--physical .ability-dot--filled { color: #d32f2f !important; text-shadow: 0 0 2px rgba(211, 47, 47, 0.3); }
-	.stats__disp-as-score--mental .ability-dot--filled { color: #1976d2 !important; text-shadow: 0 0 2px rgba(25, 118, 210, 0.3); }
+	/* Contenedor principal de dots */
+	.ability-dots { 
+		display: inline-flex !important; 
+		align-items: center !important; 
+		gap: 2px !important; 
+		font-family: monospace !important; 
+		white-space: nowrap !important; 
+	}
+	
+	/* Dots individuales */
+	.ability-dot { 
+		display: inline-block !important; 
+		font-size: 16px !important; 
+		line-height: 1 !important; 
+		transition: color 0.2s ease !important; 
+	}
+	
+	/* Dot relleno (activo) */
+	.ability-dot--filled { 
+		color: #2e7d32 !important; 
+		text-shadow: 0 0 2px rgba(46, 125, 50, 0.3) !important; 
+	}
+	
+	/* Dot vacío (inactivo) */
+	.ability-dot--empty { 
+		color: #ccc !important; 
+		opacity: 0.6 !important; 
+	}
+	
+	/* Número adicional para dots > 5 */
+	.ability-dot-extra { 
+		margin-left: 4px !important; 
+		font-size: 12px !important; 
+		color: #666 !important; 
+		font-weight: bold !important; 
+	}
+	
+	/* Colores específicos por tipo de habilidad */
+	.stats__disp-as-score--physical .ability-dot--filled { 
+		color: #d32f2f !important; 
+		text-shadow: 0 0 2px rgba(211, 47, 47, 0.3) !important; 
+	}
+	.stats__disp-as-score--mental .ability-dot--filled { 
+		color: #1976d2 !important; 
+		text-shadow: 0 0 2px rgba(25, 118, 210, 0.3) !important; 
+	}
+	
+	/* Animación de aparición */
+	.ability-dot--filled {
+		animation: dotAppear 0.3s ease-out !important;
+	}
+	@keyframes dotAppear {
+		from { opacity: 0; transform: scale(0.5); }
+		to { opacity: 1; transform: scale(1); }
+	}
 	</style>
 
 	<!-- Favicons -->
